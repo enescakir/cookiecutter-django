@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["master", "main"]
+    branches: ["ubicloud-runner"]
   pull_request:
 
 concurrency:
@@ -15,9 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
-          - windows-latest
-          - macOS-latest
+          - ubicloud
 
     name: "pytest ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
@@ -47,7 +45,7 @@ jobs:
             args: "frontend_pipeline=Webpack"
 
     name: "Docker ${{ matrix.script.name }}"
-    runs-on: ubuntu-latest
+    runs-on: ubicloud
     env:
       DOCKER_BUILDKIT: 1
       COMPOSE_DOCKER_CLI_BUILD: 1
@@ -78,7 +76,7 @@ jobs:
             args: "username_type=email ci_tool=Github project_name='Something superduper long - the great amazing project' project_slug=my_awesome_project"
 
     name: "Bare metal ${{ matrix.script.name }}"
-    runs-on: ubuntu-latest
+    runs-on: ubicloud
     services:
       redis:
         image: redis:5.0
